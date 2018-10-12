@@ -3,6 +3,17 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
+const authorSchema = mongoose.Schema({
+  firstName: 'string',
+  lastName: 'sting',
+  userName: {
+    type: 'sting',
+    unique: true
+  }
+});
+
+const commentSchema = mongoose.Schema({ content: 'string'});
+
 const blogPostSchema = mongoose.Schema({
   author: {
     firstName: String,
@@ -28,6 +39,7 @@ blogPostSchema.methods.serialize = function() {
   };
 };
 
+const Author = mongoose.model('Author', authorSchema);
 const BlogPost = mongoose.model('BlogPost', blogPostSchema);
 
 module.exports = {BlogPost};
