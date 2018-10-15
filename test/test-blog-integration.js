@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const expect = chai.expect;
 
-const {BlogPost} = require('./models');
+const {BlogPost} = require('../models');
 const {app, runServer, closeServer} = require('../server');
 const {TEST_DATABASE_URL} = require('../config');
 
@@ -81,6 +81,6 @@ describe('Blog API resource', function() {
                 expect(res.body.blogs).to.have.lengthOf(count);
             });
         });
-        
+
     });
 });
