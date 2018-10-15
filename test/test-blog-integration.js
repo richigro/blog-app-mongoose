@@ -45,3 +45,42 @@ function generateBlogData() {
         created: Date.now()
     };
 }
+
+function tearDownDb() {
+    console.warn('Deleting test Database');
+    return mongoose.connection.dropDatabase();
+}
+
+describe('Blog API resource', function() {
+    before(function() {
+        return runServer(TEST_DATABASE_URL);
+    });
+    beforeEach(function() {
+        return seedBlogData();
+    });
+
+    afterEach(function() {
+        return tearDownDb();
+    });
+    after(function() {
+        return closeServer();
+    });
+
+    describe('GET endpoint', function() {
+        it('should return all existing blogs', function() {
+            let res; 
+            return chai.request(app)
+            .get('/blogs')
+            .then(function(_res) {
+                res = _res;
+                expect(res).to.have.status(200);
+                expect(res.body.blogs).to.have.lengthOf.at.least(1);
+                return BlogPost.count();
+            })
+            .then(function(count) {
+                expect(res.body.blogs).to.have.lengthOf(count);
+            });
+        });
+        
+    });
+});
